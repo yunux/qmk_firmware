@@ -218,7 +218,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESC,          KC_Q,         KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,      KC_U,    KC_I,    KC_O,    KC_P,            KC_BSPC,
     KC_TAB,          KC_A,         KC_S,    KC_D,    KC_F,    KC_G,    KC_H,      KC_J,    KC_K,    KC_L,    KC_DOT,         KC_ENT,
     LSFT_T(KC_UNDS), RCTL_T(KC_NUBS), KC_X,    KC_C,    KC_V,    KC_B,    KC_N,   KC_M,    KC_COMM, KC_Z,  RCTL_T(KC_SLSH), RSFT_T(KC_MINS),
-    KC_LCTL,         KC_SLCK,      KC_LGUI, KC_LALT, MO(_LOWER),   LT(_SPCFN, KC_SPC), LT(_RAISE, KC_SCLN),   KC_LALT, KC_RGUI, KC_SLCK,  KC_LCTL
+    KC_LCTL,         KC_SCRL,      KC_LGUI, KC_LALT, MO(_LOWER),   LT(_SPCFN, KC_SPC), LT(_RAISE, KC_SCLN),   KC_LALT, KC_RGUI, KC_SCRL,  KC_LCTL
 ),
 /* VYWB
  * ,-----------------------------------------------------------------------------------.
@@ -305,7 +305,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_planck_mit(
-    KC_PWR,   DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, TG(_OPTIM),
+    KC_PWR,  QK_BOOT, DB_TOGG, RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, TG(_OPTIM),
     _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
