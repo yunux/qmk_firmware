@@ -189,7 +189,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 // Tap Dance end
 
 
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Qwerty
