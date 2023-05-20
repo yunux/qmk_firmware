@@ -189,7 +189,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 // Tap Dance end
 
 
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Qwerty
@@ -217,8 +216,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = LAYOUT_planck_mit(
     KC_ESC,          KC_Q,         KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,      KC_U,    KC_I,    KC_O,    KC_P,            KC_BSPC,
     KC_TAB,          KC_A,         KC_S,    KC_D,    KC_F,    KC_G,    KC_H,      KC_J,    KC_K,    KC_L,    KC_DOT,         KC_ENT,
-    LSFT_T(KC_UNDS), RCTL_T(KC_NUBS), KC_X,    KC_C,    KC_V,    KC_B,    KC_N,   KC_M,    KC_COMM, KC_Z,  RCTL_T(KC_SLSH), RSFT_T(KC_MINS),
-    KC_LCTL,         KC_SLCK,      KC_LGUI, KC_LALT, MO(_LOWER),   LT(_SPCFN, KC_SPC), LT(_RAISE, KC_SCLN),   KC_LALT, KC_RGUI, KC_SLCK,  KC_LCTL
+    LSFT_T(CW_TOGG), RCTL_T(KC_NUBS), KC_X,    KC_C,    KC_V,    KC_B,    KC_N,   KC_M,    KC_COMM, KC_Z,  RCTL_T(KC_SLSH), RSFT_T(KC_MINS),
+    KC_LCTL,         KC_SCRL,      KC_LGUI, KC_LALT, MO(_LOWER),   LT(_SPCFN, KC_SPC), LT(_RAISE, KC_SCLN),   KC_LALT, KC_RGUI, KC_SCRL,  KC_LCTL
 ),
 /* VYWB
  * ,-----------------------------------------------------------------------------------.
@@ -240,19 +239,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* RAISE LAYER: SYMBOLS
  * ,-----------------------------------------------------------------------------------.
- * |   `  |   "  |   &  |   *  |   =  |   {  |   }  |  F7  |  F8  |  F9  |  F10 | BSPC |
+ * |   `  |   "  |   &  |   *  |   ^  |   {  |   }  |  F7  |  F8  |  F9  |  F10 | BSPC |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |   @  |   $  |   %  |   ^  |   (  |   )  |  F4  |  F5  |  F6  |  F11 |      |
+ * |      |   @  |   $  |   %  |   #  |   (  |   )  |  F4  |  F5  |  F6  |  F11 |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |   ~  |   _  |   !  |   @  |   #  |   [  |   ]  |  F1  |  F2  |  F3  |  F12 |      |
+ * |   ~  |   '  |   !  |   @  |      |   [  |   ]  |  F1  |  F2  |  F3  |  F12 |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      |      | Next | Vol- | Vol+ |
  * `-----------------------------------------------------------------------------------'
  */
 [_RAISE] = LAYOUT_planck_mit(
-    TD(BACKTICK),  TD(DQUOTE), KC_AMPR, KC_ASTR, KC_EQL,  KC_LCBR, KC_RCBR, KC_F7, KC_F8, KC_F9, KC_F10, KC_BSPC,
-    _______, S(KC_QUOT), TD(DOLLAR),  KC_PERC, KC_CIRC, KC_LPRN, KC_RPRN, KC_F4, KC_F5, KC_F6, KC_F11, _______,
-    KC_PIPE, KC_UNDS, KC_EXLM, S(KC_QUOT), KC_NUHS, KC_LBRC, KC_RBRC, KC_F1, KC_F2, KC_F3, KC_F12, _______,
+    TD(BACKTICK),  TD(DQUOTE), KC_AMPR, KC_ASTR, KC_CIRC,  KC_LCBR, KC_RCBR, KC_F7, KC_F8, KC_F9, KC_F10, KC_BSPC,
+    _______, S(KC_QUOT), TD(DOLLAR),  KC_PERC,   KC_NUHS, KC_LPRN, KC_RPRN, KC_F4, KC_F5, KC_F6, KC_F11,  _______,
+    KC_PIPE, TD(SQUOTE), KC_EXLM, S(KC_QUOT),    _______, KC_LBRC, KC_RBRC, KC_F1, KC_F2, KC_F3, KC_F12, _______,
     _______, _______, _______, _______,    _______, _______, _______, _______,    KC_MNXT, KC_VOLD, KC_VOLU
 ),
 
@@ -260,7 +259,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------------------------------------------------.
  * |   ~  |      |      |      |      |      |      |   7  |   8  |   9  |   0  |  ^   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |   4  |   5  |   6  |   '  |  =   |
+ * |      |      |      |      |      |      |      |   4  |   5  |   6  |      |  =   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |      |      |   1  |   2  |   3  |   *  |  +   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -269,7 +268,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_LOWER] = LAYOUT_planck_mit(
     S(KC_NUHS), _______, _______, _______,    _______,    _______, _______, KC_7,    KC_8,    KC_9,    KC_0,    KC_CIRC,
-    _______,    _______, _______, _______,    _______,    _______, _______, KC_4,    KC_5,    KC_6,    TD(SQUOTE), KC_EQUAL,
+    _______,    _______, _______, _______,    _______,    _______, _______, KC_4,    KC_5,    KC_6,    _______, KC_EQUAL,
     _______,    _______, _______, _______,    _______,    _______, _______, KC_1,    KC_2,    KC_3,    KC_ASTR, KC_PLUS,
     _______,    _______, _______, _______,    _______,    _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY
 ),
@@ -286,9 +285,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_SPCFN] = LAYOUT_planck_mit(
-	_______, _______, KC_INS,  KC_END,  KC_BSPC, C(KC_BSPC), _______,    CW_TOGG,  KC_UP,    A(KC_TAB),  C(KC_UP), KC_DEL ,
+	_______, _______, KC_INS,  KC_END,  KC_BSPC, C(KC_BSPC), _______,    KC_CAPS,  KC_UP,    A(KC_TAB),  C(KC_UP), KC_DEL ,
     _______, KC_HOME, KC_PSCR, KC_DEL , _______, C(KC_DEL),  C(KC_LEFT), KC_LEFT,  KC_DOWN,  KC_RIGHT,   C(KC_RIGHT), _______,  
-    _______, _______, KC_APP , KC_CAPS, _______, _______,    C(KC_DOWN), _______,  _______,  _______,    _______,  _______,
+    _______, _______, KC_APP , _______, _______, _______,    C(KC_DOWN), _______,  _______,  _______,    _______,  _______,
     _______, _______, _______, _______, _______, _______,          _______,        _______,  _______,    _______,  _______
 ),
 
@@ -305,7 +304,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_planck_mit(
-    KC_PWR,   DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, TG(_OPTIM),
+    KC_PWR,  QK_BOOT, DB_TOGG, RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, TG(_OPTIM),
     _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
