@@ -189,6 +189,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 // Tap Dance end
 
 
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Qwerty
@@ -304,7 +305,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_planck_mit(
-    KC_PWR,  QK_BOOT, DB_TOGG, RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, TG(_OPTIM),
+    KC_PWR,   DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, TG(_OPTIM),
     _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
