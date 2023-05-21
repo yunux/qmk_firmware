@@ -1,0 +1,114 @@
+* Yunux' Keymap for Planck
+This is Yunux' 40% ortholinear MIT-style keymap.
+Testing changing a submodule.
+** Layers
+*** Base Layer
+	This is the base qwerty layer.
+
+ #+begin_src
+ ,-------+-----+-------+------+-------+-------+-------+-------+------+-------+-----+-------.
+ | ESC   | Q   | W     | E    | R     | T     | Y     | U     | I    | O     | P   | BSPC  |
+ |-------+-----+-------+------+-------+-------+-------+-------+------+-------+-----+-------|
+ | TAB   | A   | S     | D    | F     | G     | H     | J     | K    | L     | ;   | ENTER |
+ |-------+-----+-------+------+-------+-------+-------+-------+------+-------+-----+-------|
+ | SHIFT | Z   | X     | C    | V     | B     | N     | M     | ,    | .     | /   | SHIFT |
+ |-------+-----+-------+------+-------+-------+-------+-------+------+-------+-----+-------|
+ | CTRL  | ALT | SUPER | META | LOWER | SPACE | SPACE | RAISE | META | SUPER | ALT | CTRL  |
+ `-------+-----+-------+------+-------+-------+-------+-------+------+-------+-----+-------'
+ #+end_src
+
+ where 
+ ~META = KC_ALT~ and ~ALT = KC_SLCK~, ~Z = RCTL_T(KC_Z)~, ~/ =
+ RCTL_T(KC_SLSH)~.
+
+ Left and right shift are bound to ~KC_NUBS~ respectively ~KC_MINS~ on tap.
+
+*** Modified Symmetric Base Layer
+	This is a modified symmetric base qwerty layer.
+
+ #+begin_src
+ ,-------+-----+-------+------+-------+-------+-------+-------+------+-------+-----+-------.
+ | ESC   | Q   | W     | E    | R     | T     | Y     | U     | I    | O     | P   | BSPC  |
+ |-------+-----+-------+------+-------+-------+-------+-------+------+-------+-----+-------|
+ | TAB   | A   | S     | D    | F     | G     | H     | J     | K    | L     | .   | ENTER |
+ |-------+-----+-------+------+-------+-------+-------+-------+------+-------+-----+-------|
+ | SHIFT | \   | X     | C    | V     | B     | N     | M     | ,    | Z     | /   | SHIFT |
+ |-------+-----+-------+------+-------+-------+-------+-------+------+-------+-----+-------|
+ | CTRL  | ALT | SUPER | META | LWR   | SPACE | SPACE | RSE ; | META | SUPER | ALT | CTRL  |
+ `-------+-----+-------+------+-------+-------+-------+-------+------+-------+-----+-------'
+ #+end_src
+
+ where 
+ ~META = KC_ALT~ and ~ALT = KC_SLCK~, ~Z = RCTL_T(KC_Z)~, ~/ =
+ RCTL_T(KC_SLSH)~.
+
+ Left and right shift are bound to ~KC_NUBS~ respectively ~KC_MINS~ on tap.
+
+*** Symbol (RAISE) Layer
+
+ This is the symbol layer. It is accessed by holding the ~RAISE~ key and contains most symbols and function keys.
+ 
+ #+begin_src
+ ,-----------------------------------------------------------------------------------.
+ |   `  |   "  |   &  |   *  |   =  |   {  |   }  |  F7  |  F8  |  F9  |  F10 | BSPC |
+ |------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |   @  |   $  |   %  |   ^  |   (  |   )  |  F4  |  F5  |  F6  |  F11 |      |
+ |------+------+------+------+------+------+------+------+------+------+------+------|
+ |   ~  |   _  |   !  |   @  |   #  |   [  |   ]  |  F1  |  F2  |  F3  |  F12 |      |
+ |------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |      |      |      |      |             |      |      | Next | Vol- | Vol+ |
+ `-----------------------------------------------------------------------------------'
+ #+end_src
+
+Tapdance is defined for =`= , ="=, and ~$~ .  Double pressing prints two of the same characters and places the cursor in between. Combos are defined for parentheses, e.g. pressing ~(~ and ~)~ simultaneously, sends both characters and places the cursor in between, i.e. moves one position left after sending the last character.
+
+*** Numbers (LOWER) Layer
+This is the numbers layer
+
+#+begin_src 
+ ,-----------------------------------------------------------------------------------.
+ |   ~  |      |      |      |      |      |      |   7  |   8  |   9  |   0  |  ^   |
+ |------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |      |      |      |      |      |      |   4  |   5  |   6  |   '  |  =   |
+ |------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |      |      |      |      |      |      |   1  |   2  |   3  |   *  |  +   |
+ |------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
+ `-----------------------------------------------------------------------------------'
+#+end_src
+
+Tapdance is defined for ~'~ .  Double pressing prints two of the same characters and places the cursor in between them.
+
+*** Space Function Layer
+This is the navigations and editing layer.  It is accessed by holding down the space key.
+
+#+begin_src 
+ ,-----------------------------------------------------------------------------------.
+ |      |      | INS  | END  | BSPC |C-BSPC|      |      |  UP  | A-TAB| C-UP | DEL  |
+ |------+------+------+------+------+------+------+------+------+------+------+------|
+ |      | HOME | PSCR | DEL  |      | C-DEL| C-LFT| LFT  | DOWN | RIGHT|C-RGHT|      |
+ |------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |      | APP  |      |      |      | C-DWN|      |      |      |      |      |
+ |------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |      |      |      |      |             |      |      |      |      |      |
+ `-----------------------------------------------------------------------------------'
+
+#+end_src
+
+
+*** Adjust Layer
+This layer is for adjusting RGB and resetting.  Accessed by holding
+down both `RAISE` and `LOWER` keys while in the base layer.
+
+#+begin_src 
+                      v------------------------RGB CONTROL--------------------v
+ ,-----------------------------------------------------------------------------------.
+ |      | RESET| DEBUG| RGB  |RGBMOD| HUE+ | HUE- | SAT+ | SAT- |BRGTH+|BRGTH-| DEL  |
+ |------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |      |      |      |      |      |      |      |      |      |      |      |
+ |------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |      |      |      |      |      |      |      |      |      |      |      |
+ |------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |      |      |      |      |             |      |      |      |      |      |
+ `-----------------------------------------------------------------------------------'
+#+end_src
