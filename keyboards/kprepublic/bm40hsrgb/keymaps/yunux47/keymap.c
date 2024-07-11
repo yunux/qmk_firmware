@@ -294,7 +294,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 			tap_code16(KC_SCROLL_LOCK); // Change the key that was held here, too!
 			if (timer_elapsed(my_hash_timer) < TAPPING_TERM) { /////////
 			  //SEND_STRING("\\"); // Change the character(s) to be sent on tap here
-			  tap_code16(KC_NUBS);
+			  tap_code(KC_QUOTE);
 			}
 		  }
 
@@ -330,10 +330,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_QWERTY] = LAYOUT_planck_mit(
-    KC_ESC,          KC_Q,        KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,      KC_U,    KC_I,    KC_O,    KC_P,            KC_BSPC,
-    KC_TAB,          KC_A,        KC_S,    KC_D,    KC_F,    KC_G,    KC_H,      KC_J,    KC_K,    KC_L,    KC_DOT,         KC_ENT,
-    KC_LSFT, Y_LHYPER, KC_X,    KC_C,    KC_V,    KC_B,    KC_N,   KC_M,    KC_COMM, KC_Z,  Y_RHYPER, RSFT_T(KC_MINS),
-    LCTL_T(CW_TOGG), KC_APP,      KC_LGUI, KC_LALT, MO(_LOWER),   LT(_SPCFN, KC_SPC), LT(_RAISE, KC_SCLN),   KC_LALT, KC_RGUI, KC_APP,  KC_LCTL
+    KC_ESC,  KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,      KC_U,    KC_I,    KC_O,    KC_P,            KC_BSPC,
+    KC_TAB,  KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,      KC_J,    KC_K,    KC_L,    KC_DOT,         KC_ENT,
+    KC_LSFT,  Y_LHYPER, KC_X,    KC_C,    KC_V,    KC_B,    KC_N,   KC_M,    KC_COMM, KC_Z,  Y_RHYPER, RSFT_T(KC_MINS),
+    KC_LCTL, KC_APP,   KC_LGUI, KC_LALT, MO(_LOWER),   LT(_SPCFN, KC_SPC), LT(_RAISE, KC_SCLN),   KC_LALT, KC_RGUI, KC_APP,  KC_LCTL
 ),
 /* VYWB
  * ,-----------------------------------------------------------------------------------.
@@ -365,11 +365,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_RAISE] = LAYOUT_planck_mit(
-    _______,  TD(DQUOTE), KC_AMPR, KC_ASTR, KC_CIRC,  KC_LCBR, KC_RCBR, KC_F7, KC_F8, KC_F9, KC_F10, KC_BSPC,
-    TD(BACKTICK), S(KC_QUOT), TD(DOLLAR),  KC_PERC,   KC_NUHS, KC_LPRN, KC_RPRN, KC_F4, KC_F5, KC_F6, KC_F11,  _______,
-    KC_PIPE, TD(SQUOTE), KC_EXLM, S(KC_QUOT),    _______, KC_LBRC, KC_RBRC, KC_F1, KC_F2, KC_F3, KC_F12, _______,
+    _______,      KC_PIPE,    KC_AMPR,    KC_NUHS,    KC_CIRC,    KC_LCBR, KC_RCBR, KC_F7, KC_F8, KC_F9, KC_F10, KC_BSPC,
+    _______,      S(KC_QUOT), TD(DOLLAR), KC_PERC,    TD(DQUOTE), KC_LPRN, KC_RPRN, KC_F4, KC_F5, KC_F6, KC_F11,  _______,
+    TD(BACKTICK), KC_NUBS,    KC_EXLM,    S(KC_NUBS), _______,    KC_LBRC, KC_RBRC, KC_F1, KC_F2, KC_F3, KC_F12, _______,
     _______, _______, _______, _______,    _______, _______, _______, _______,    KC_MNXT, KC_VOLD, KC_VOLU
 ),
+
+//[_RAISE] = LAYOUT_planck_mit(
+//    _______,      TD(DQUOTE), KC_AMPR, KC_ASTR, KC_CIRC,  KC_LCBR, KC_RCBR, KC_F7, KC_F8, KC_F9, KC_F10, KC_BSPC,
+//    TD(BACKTICK), S(KC_QUOT), TD(DOLLAR),  KC_PERC,   KC_NUHS, KC_LPRN, KC_RPRN, KC_F4, KC_F5, KC_F6, KC_F11,  _______,
+//    KC_PIPE, TD(SQUOTE), KC_EXLM, S(KC_QUOT),    _______, KC_LBRC, KC_RBRC, KC_F1, KC_F2, KC_F3, KC_F12, _______,
+//    _______, _______, _______, _______,    _______, _______, _______, _______,    KC_MNXT, KC_VOLD, KC_VOLU
+//),
 
 /* LOWER LAYER: NUMBERS
  * ,-----------------------------------------------------------------------------------.
