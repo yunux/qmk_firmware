@@ -28,11 +28,76 @@ enum layers {
 // Custom Keycodes
 enum custom_keycodes {
     OCQUOTE,
-    OCPAREN
+    OCPAREN,
+	Y_LHYPER,    // my hyper keycode
+	Y_RHYPER,    // my hyper keycode
+	Y_ALT       // my alt modifier
 };
 
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
+
+// Window hopping
+// the code is in "encoders" section
+#define ALT_TAB_TIMEOUT 1000
+bool is_alt_tab_active = false;
+uint16_t alt_tab_timer = 0;
+
+void matrix_scan_user(void) {
+  // release alt if tab not pressed within 1000 ms
+  if (is_alt_tab_active) {
+    if (timer_elapsed(alt_tab_timer) > ALT_TAB_TIMEOUT) {
+      unregister_code(KC_LALT);
+      is_alt_tab_active = false;
+    }
+  }
+}
+
+// Tapping term per key
+// use longer tapping term for tap dance
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+  case QK_TAP_DANCE ... QK_TAP_DANCE_MAX:
+	return 300;
+  case LT(_SPCFN, KC_SPC):
+  case LT(_RAISE, KC_SCLN):
+	return 250;
+  default:
+	return TAPPING_TERM;
+  }
+}
+
+// Encoders
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    if (index == 4) { /* upper-right encoder */
+        if (clockwise) {
+ 		  register_code(KC_LALT);
+		  tap_code(KC_N);
+		  unregister_code(KC_LALT);
+        } else {
+		  register_code(KC_LALT);
+		  tap_code(KC_P);
+		  unregister_code(KC_LALT);
+        }
+    } else if (index == 0) { /* upper-left encoder */
+       if (clockwise) {
+		 if (!is_alt_tab_active) {
+			is_alt_tab_active = true;
+			register_code(KC_LALT);
+		  }
+		  alt_tab_timer = timer_read();
+		  tap_code16(KC_TAB);
+		} else {
+		  if (!is_alt_tab_active) {
+			is_alt_tab_active = true;
+			register_code(KC_LALT);
+		  }
+		  alt_tab_timer = timer_read();
+		  tap_code16(S(KC_TAB));
+		}
+    }
+    return false;
+}
 
 
 // Combos
@@ -79,7 +144,7 @@ enum {
 };
 
 // Double quote
-void dance_doublequote(qk_tap_dance_state_t *state, void *user_data) {
+void dance_doublequote(tap_dance_state_t *state, void *user_data) {
     switch(state->count) {
 	case 1:
 	  tap_code16(KC_AT);
@@ -103,7 +168,7 @@ void dance_doublequote(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 // Single quotes
-void dance_singlequote(qk_tap_dance_state_t *state, void *user_data) {
+void dance_singlequote(tap_dance_state_t *state, void *user_data) {
     switch(state->count) {
 	case 1:
 	  tap_code(KC_QUOT);
@@ -127,7 +192,7 @@ void dance_singlequote(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 // backtick
-void dance_backtick(qk_tap_dance_state_t *state, void *user_data) {
+void dance_backtick(tap_dance_state_t *state, void *user_data) {
     switch(state->count) {
 	case 1:
 	  tap_code(KC_GRV);
@@ -151,7 +216,7 @@ void dance_backtick(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 // dollar sign
-void dance_dollar(qk_tap_dance_state_t *state, void *user_data) {
+void dance_dollar(tap_dance_state_t *state, void *user_data) {
     switch(state->count) {
 	case 1:
 	  register_code(KC_RSFT);
@@ -180,13 +245,64 @@ void dance_dollar(qk_tap_dance_state_t *state, void *user_data) {
 	}
 }
 
-qk_tap_dance_action_t tap_dance_actions[] = {
+tap_dance_action_t tap_dance_actions[] = {
   [DQUOTE] = ACTION_TAP_DANCE_FN(dance_doublequote),
   [SQUOTE] = ACTION_TAP_DANCE_FN(dance_singlequote),
   [BACKTICK] = ACTION_TAP_DANCE_FN(dance_backtick),
   [DOLLAR] = ACTION_TAP_DANCE_FN(dance_dollar)
 };
 // Tap Dance end
+
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  static uint16_t my_hash_timer;
+  
+    switch (keycode) {
+        // Intercept Capsword on leftshift tap
+	    case LCTL_T(CW_TOGG):
+            if (record->tap.count && record->event.pressed) {
+                /* tap_code16(CW_TOGG); // Send CW_TOGG on tap */
+			  caps_word_toggle();
+			  return false;        // Return false to ignore further processing of key
+            }
+			break;
+			/*case Y_ALT:
+		  if(record->event.pressed) {
+			tap_code(KC_SCROLL_LOCK); // register scroll lock
+		  } else {
+			tap_code(KC_SCROLL_LOCK); // unregister scroll lock
+			}*/
+
+	    case Y_RHYPER:
+		  if(record->event.pressed) {
+			my_hash_timer = timer_read();
+			tap_code16(KC_SCROLL_LOCK); // Change the key to be held here
+		  } else {
+			tap_code16(KC_SCROLL_LOCK); // Change the key that was held here, too!
+			if (timer_elapsed(my_hash_timer) < TAPPING_TERM) {
+			  //SEND_STRING("/"); // Change the character(s) to be sent on tap here
+			  tap_code16(KC_SLASH);
+			}
+		  }
+		  break;
+
+	case Y_LHYPER:
+		  if(record->event.pressed) {
+			my_hash_timer = timer_read();
+			tap_code16(KC_SCROLL_LOCK); // Change the key to be held here
+		  } else {
+			tap_code16(KC_SCROLL_LOCK); // Change the key that was held here, too!
+			if (timer_elapsed(my_hash_timer) < TAPPING_TERM) { /////////
+			  //SEND_STRING("\\"); // Change the character(s) to be sent on tap here
+			  tap_code16(KC_NUBS);
+			}
+		  }
+
+		  
+		  
+    }
+    return true;
+}
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -214,10 +330,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_QWERTY] = LAYOUT_planck_mit(
-    KC_ESC,          KC_Q,         KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,      KC_U,    KC_I,    KC_O,    KC_P,            KC_BSPC,
-    KC_TAB,          KC_A,         KC_S,    KC_D,    KC_F,    KC_G,    KC_H,      KC_J,    KC_K,    KC_L,    KC_DOT,         KC_ENT,
-    LSFT_T(CW_TOGG), RCTL_T(KC_NUBS), KC_X,    KC_C,    KC_V,    KC_B,    KC_N,   KC_M,    KC_COMM, KC_Z,  RCTL_T(KC_SLSH), RSFT_T(KC_MINS),
-    KC_LCTL,         KC_SCRL,      KC_LGUI, KC_LALT, MO(_LOWER),   LT(_SPCFN, KC_SPC), LT(_RAISE, KC_SCLN),   KC_LALT, KC_RGUI, KC_SCRL,  KC_LCTL
+    KC_ESC,          KC_Q,        KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,      KC_U,    KC_I,    KC_O,    KC_P,            KC_BSPC,
+    KC_TAB,          KC_A,        KC_S,    KC_D,    KC_F,    KC_G,    KC_H,      KC_J,    KC_K,    KC_L,    KC_DOT,         KC_ENT,
+    KC_LSFT, Y_LHYPER, KC_X,    KC_C,    KC_V,    KC_B,    KC_N,   KC_M,    KC_COMM, KC_Z,  Y_RHYPER, RSFT_T(KC_MINS),
+    LCTL_T(CW_TOGG), KC_APP,      KC_LGUI, KC_LALT, MO(_LOWER),   LT(_SPCFN, KC_SPC), LT(_RAISE, KC_SCLN),   KC_LALT, KC_RGUI, KC_APP,  KC_LCTL
 ),
 /* VYWB
  * ,-----------------------------------------------------------------------------------.
@@ -241,7 +357,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------------------------------------------------.
  * |   `  |   "  |   &  |   *  |   ^  |   {  |   }  |  F7  |  F8  |  F9  |  F10 | BSPC |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |   @  |   $  |   %  |   #  |   (  |   )  |  F4  |  F5  |  F6  |  F11 |      |
+ * |   `  |   @  |   $  |   %  |   #  |   (  |   )  |  F4  |  F5  |  F6  |  F11 |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |   ~  |   '  |   !  |   @  |      |   [  |   ]  |  F1  |  F2  |  F3  |  F12 |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -249,8 +365,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_RAISE] = LAYOUT_planck_mit(
-    TD(BACKTICK),  TD(DQUOTE), KC_AMPR, KC_ASTR, KC_CIRC,  KC_LCBR, KC_RCBR, KC_F7, KC_F8, KC_F9, KC_F10, KC_BSPC,
-    _______, S(KC_QUOT), TD(DOLLAR),  KC_PERC,   KC_NUHS, KC_LPRN, KC_RPRN, KC_F4, KC_F5, KC_F6, KC_F11,  _______,
+    _______,  TD(DQUOTE), KC_AMPR, KC_ASTR, KC_CIRC,  KC_LCBR, KC_RCBR, KC_F7, KC_F8, KC_F9, KC_F10, KC_BSPC,
+    TD(BACKTICK), S(KC_QUOT), TD(DOLLAR),  KC_PERC,   KC_NUHS, KC_LPRN, KC_RPRN, KC_F4, KC_F5, KC_F6, KC_F11,  _______,
     KC_PIPE, TD(SQUOTE), KC_EXLM, S(KC_QUOT),    _______, KC_LBRC, KC_RBRC, KC_F1, KC_F2, KC_F3, KC_F12, _______,
     _______, _______, _______, _______,    _______, _______, _______, _______,    KC_MNXT, KC_VOLD, KC_VOLU
 ),
@@ -270,12 +386,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     S(KC_NUHS), _______, _______, _______,    _______,    _______, _______, KC_7,    KC_8,    KC_9,    KC_0,    KC_CIRC,
     _______,    _______, _______, _______,    _______,    _______, _______, KC_4,    KC_5,    KC_6,    _______, KC_EQUAL,
     _______,    _______, _______, _______,    _______,    _______, _______, KC_1,    KC_2,    KC_3,    KC_ASTR, KC_PLUS,
-    _______,    _______, _______, _______,    _______,    _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY
+    _______,    _______, _______, _______,    _______,    CW_TOGG, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY
 ),
 
 /* SPACE FUNCTION LAYER: NAVIGATION ETC.
  * ,-----------------------------------------------------------------------------------.
- * |      |      | INS  | END  | BSPC |C-BSPC|      |      |  UP  | A-TAB| C-UP | DEL  |
+ * |      | ESC  | INS  | END  | BSPC |C-BSPC|      |      |  UP  | A-TAB| C-UP | DEL  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      | HOME | PSCR | DEL  |      | C-DEL| C-LFT| LFT  | DOWN | RIGHT|C-RGHT|      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -285,9 +401,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_SPCFN] = LAYOUT_planck_mit(
-	_______, _______, KC_INS,  KC_END,  KC_BSPC, C(KC_BSPC), _______,    KC_CAPS,  KC_UP,    A(KC_TAB),  C(KC_UP), KC_DEL ,
+	_______, KC_ESC , KC_INS,  KC_END,  KC_BSPC, C(KC_BSPC), _______,    CW_TOGG,  KC_UP,    A(KC_TAB),  C(KC_UP), KC_DEL ,
     _______, KC_HOME, KC_PSCR, KC_DEL , _______, C(KC_DEL),  C(KC_LEFT), KC_LEFT,  KC_DOWN,  KC_RIGHT,   C(KC_RIGHT), _______,  
-    _______, _______, KC_APP , _______, _______, _______,    C(KC_DOWN), _______,  _______,  _______,    _______,  _______,
+    _______, _______, KC_APP , KC_CAPS, _______, _______,    C(KC_DOWN), _______,  _______,  _______,    _______,  _______,
     _______, _______, _______, _______, _______, _______,          _______,        _______,  _______,    _______,  _______
 ),
 
