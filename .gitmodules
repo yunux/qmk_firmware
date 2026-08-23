@@ -28,6 +28,8 @@
 [submodule "keyboards/planck/rev7/keymaps/yunux47-keymap"]
 	path = keyboards/planck/rev7/keymaps/yunux47-keymap
 	url = https://github.com/yunux/yunux47-keymap.git
+	branch = main
 [submodule "keyboards/kprepublic/bm40hsrgb/keymaps/yunux47"]
 	path = keyboards/kprepublic/bm40hsrgb/keymaps/yunux47
 	url = https://github.com/yunux/yunux47-keymap.git
+	branch = main
